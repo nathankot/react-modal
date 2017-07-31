@@ -63,6 +63,9 @@ var App = createReactClass({
           <form>
             <input onChange={this.handleInputChange} />
             <input />
+            <span>
+              <input />
+            </span>
             <input />
             <input />
             <input />

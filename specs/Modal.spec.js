@@ -153,6 +153,53 @@ describe('State', () => {
       portalClassName: 'myPortalClass'
     });
     expect(modal.node.className.includes('myPortalClass')).toBeTruthy();
+    equal(tabPrevented, true);
+    unmountModal();
+  });
+
+  it('focuses first tabbable element on first tab press', function() {
+    var input = React.DOM.input({
+        className: 'input'
+      }
+    );
+
+    var modal = renderModal({isOpen: true}, input);
+
+    Simulate.keyDown(modal.portal.refs.content, {
+      key: "Tab",
+      keyCode: 9,
+      which: 9
+    });
+
+    strictEqual(document.activeElement, document.querySelector('.input'));
+
+    unmountModal();
+  });
+
+  it('focuses tabbable elements inside of inline elements', function() {
+    var visibleInputWrapper = React.DOM.span({
+      key: 'visible_input_wrapper',
+      className: 'visible_input_wrapper',
+    }, React.DOM.input({
+        className: 'visible_input',
+        style: {
+          display: 'block'
+        }
+      })
+    );
+
+    var modal = renderModal({isOpen: true}, visibleInputWrapper);
+
+    Simulate.keyDown(modal.portal.refs.content, {
+      key: "Tab",
+      keyCode: 9,
+      which: 9
+    });
+
+    strictEqual(document.activeElement, document.querySelector('.visible_input'));
+
+    unmountModal();
+>>>>>>> damonbauer/fix-tab
   });
 
   it('supports custom className', () => {
